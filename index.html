@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="CloudBox - Free cloud storage. Upload, organize, share and preview your files." />
+  <title>CloudBox &mdash; Cloud Storage</title>
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+
+  <!-- ============ TOASTS ============ -->
+  <div id="toast-container" class="toast-container" aria-live="polite"></div>
+
+  <!-- ============ LOADING SPLASH ============ -->
+  <div id="splash" class="splash">
+    <div class="splash-logo">
+      <svg viewBox="0 0 24 24" width="48" height="48" fill="none" stroke="currentColor" stroke-width="1.6">
+        <path d="M17.5 19a4.5 4.5 0 0 0 .5-8.97A6 6 0 0 0 6.3 9.2 4.5 4.5 0 0 0 6.5 19h11z" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+    <div class="splash-spinner"></div>
+    <p>Loading CloudBox&hellip;</p>
+  </div>
+
+  <!-- ============ AUTH SCREEN ============ -->
+  <div id="auth-screen" class="auth-screen hidden">
+    <div class="auth-aside">
+      <div class="auth-aside-inner">
+        <div class="brand brand-light">
+          <svg viewBox="0 0 24 24" width="30" height="30" fill="none" stroke="currentColor" stroke-width="1.8">
+            <path d="M17.5 19a4.5 4.5 0 0 0 .5-8.97A6 6 0 0 0 6.3 9.2 4.5 4.5 0 0 0 6.5 19h11z" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <span>CloudBox</span>
+        </div>
+        <h1>Store, organize and share your files in the cloud.</h1>
+        <ul class="auth-features">
+          <li><span class="tick">&#10003;</span> 10 GB of free storage</li>
+          <li><span class="tick">&#10003;</span> Drag &amp; drop uploads with resume</li>
+          <li><span class="tick">&#10003;</span> Public share links &amp; passwords</li>
+          <li><span class="tick">&#10003;</span> Preview images, video, audio &amp; PDF</li>
+          <li><span class="tick">&#10003;</span> Folders, search and smart filters</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="auth-main">
+      <div class="auth-card">
+        <div class="brand brand-mobile">
+          <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.8">
+            <path d="M17.5 19a4.5 4.5 0 0 0 .5-8.97A6 6 0 0 0 6.3 9.2 4.5 4.5 0 0 0 6.5 19h11z" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <span>CloudBox</span>
+        </div>
+
+        <div class="tabs" role="tablist">
+          <button class="tab active" data-tab="login" role="tab">Log in</button>
+          <button class="tab" data-tab="signup" role="tab">Sign up</button>
+        </div>
+
+        <!-- LOGIN -->
+        <form id="login-form" class="auth-form" autocomplete="on">
+          <label class="field">
+            <span>Email</span>
+            <input type="email" name="email" placeholder="you@example.com" required autocomplete="email" />
+          </label>
+          <label class="field">
+            <span>Password</span>
+            <span class="input-wrap">
+              <input type="password" name="password" placeholder="Your password" required autocomplete="current-password" />
+              <button type="button" class="toggle-pw" aria-label="Show password">&#128065;</button>
+            </span>
+          </label>
+          <div class="row-between">
+            <label class="checkbox">
+              <input type="checkbox" name="remember" checked />
+              <span>Remember me</span>
+            </label>
+            <button type="button" class="link" id="forgot-link">Forgot password?</button>
+          </div>
+          <button type="submit" class="btn btn-primary btn-block">
+            <span class="btn-label">Log in</span>
+            <span class="btn-spinner hidden"></span>
+          </button>
+          <div class="divider"><span>or</span></div>
+          <button type="button" class="btn btn-ghost btn-block" id="google-login">
+            <svg width="18" height="18" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.5 0 6.6 1.2 9 3.5l6.7-6.7C35.6 2.4 30.2 0 24 0 14.6 0 6.4 5.4 2.5 13.2l7.8 6.1C12.2 13.2 17.6 9.5 24 9.5z"/><path fill="#4285F4" d="M46.5 24.5c0-1.6-.1-3.1-.4-4.5H24v9h12.7c-.6 3-2.3 5.6-4.8 7.3l7.5 5.8c4.4-4.1 7.1-10.1 7.1-17.6z"/><path fill="#FBBC05" d="M10.3 28.7A14.5 14.5 0 0 1 9.5 24c0-1.6.3-3.2.8-4.7l-7.8-6.1A24 24 0 0 0 0 24c0 3.9.9 7.5 2.5 10.8l7.8-6.1z"/><path fill="#34A853" d="M24 48c6.5 0 11.9-2.1 15.9-5.8l-7.5-5.8c-2.1 1.4-4.8 2.3-8.4 2.3-6.4 0-11.8-3.7-13.7-8.9l-7.8 6.1C6.4 42.6 14.6 48 24 48z"/></svg>
+            Continue with Google
+          </button>
+        </form>
+
+        <!-- SIGNUP -->
+        <form id="signup-form" class="auth-form hidden" autocomplete="on">
+          <label class="field">
+            <span>Full name</span>
+            <input type="text" name="name" placeholder="Jane Doe" required autocomplete="name" />
+          </label>
+          <label class="field">
+            <span>Email</span>
+            <input type="email" name="email" placeholder="you@example.com" required autocomplete="email" />
+          </label>
+          <label class="field">
+            <span>Password</span>
+            <span class="input-wrap">
+              <input type="password" name="password" placeholder="At least 8 characters" required minlength="8" autocomplete="new-password" />
+              <button type="button" class="toggle-pw" aria-label="Show password">&#128065;</button>
+            </span>
+          </label>
+          <div class="pw-strength" id="pw-strength">
+            <div class="pw-bar"><i></i></div>
+            <small class="pw-label">Password strength</small>
+          </div>
+          <label class="checkbox">
+            <input type="checkbox" name="terms" required />
+            <span>I agree to the <a href="#" class="link">Terms</a> &amp; <a href="#" class="link">Privacy Policy</a></span>
+          </label>
+          <button type="submit" class="btn btn-primary btn-block">
+            <span class="btn-label">Create free account</span>
+            <span class="btn-spinner hidden"></span>
+          </button>
+          <p class="auth-foot">You get <strong>10 GB</strong> free. No credit card required.</p>
+        </form>
+
+        <div id="auth-message" class="auth-message hidden"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ APP SHELL ============ -->
+  <div id="app" class="app hidden">
+
+    <!-- Top bar -->
+    <header class="topbar">
+      <button class="icon-btn menu-toggle" id="menu-toggle" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </button>
+      <a class="brand brand-sm" href="#" id="home-link">
+        <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.8">
+          <path d="M17.5 19a4.5 4.5 0 0 0 .5-8.97A6 6 0 0 0 6.3 9.2 4.5 4.5 0 0 0 6.5 19h11z" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <span>CloudBox</span>
+      </a>
+
+      <div class="search">
+        <svg class="search-ico" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5" stroke-linecap="round"/></svg>
+        <input type="search" id="search-input" placeholder="Search your files and folders…" autocomplete="off" />
+        <kbd class="search-kbd">/</kbd>
+      </div>
+
+      <div class="topbar-actions">
+        <button class="btn btn-primary btn-sm" id="upload-btn">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 16V4m0 0 4 4m-4-4-4 4" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 16v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2" stroke-linecap="round"/></svg>
+          Upload
+        </button>
+        <button class="btn btn-ghost btn-sm" id="new-folder-btn">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7z" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 11v5m-2.5-2.5h5" stroke-linecap="round"/></svg>
+          New folder
+        </button>
+        <div class="user-menu" id="user-menu">
+          <button class="avatar-btn" id="avatar-btn">
+            <span class="avatar" id="avatar-initials">U</span>
+          </button>
+          <div class="dropdown" id="user-dropdown">
+            <div class="dropdown-head">
+              <span class="avatar avatar-lg" id="dd-avatar">U</span>
+              <div>
+                <strong id="dd-name">User</strong>
+                <small id="dd-email">user@example.com</small>
+              </div>
+            </div>
+            <div class="dd-quota">
+              <div class="dd-quota-top"><span>Storage</span><span id="dd-quota-text">0 B / 10 GB</span></div>
+              <div class="quota-bar"><i id="dd-quota-bar"></i></div>
+            </div>
+            <a class="dropdown-item" href="#" data-nav="dashboard">Dashboard</a>
+            <a class="dropdown-item" href="#" data-nav="settings">Settings</a>
+            <button class="dropdown-item danger" id="logout-btn">Log out</button>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <div class="shell">
+      <!-- Sidebar -->
+      <aside class="sidebar" id="sidebar">
+        <nav class="side-nav">
+          <button class="side-item active" data-view="files">
+            <svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7z" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <span>My Files</span>
+          </button>
+          <button class="side-item" data-view="recent">
+            <svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="8"/><path d="M12 8v4l3 2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <span>Recent</span>
+          </button>
+          <button class="side-item" data-view="shared">
+            <svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="8" cy="9" r="3"/><circle cx="16" cy="9" r="3"/><path d="M2.5 19a5.5 5.5 0 0 1 11 0M10.5 19a5.5 5.5 0 0 1 11 0" stroke-linecap="round"/></svg>
+            <span>Shared</span>
+          </button>
+          <button class="side-item" data-view="starred">
+            <svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.8"><path d="m12 4 2.4 4.9 5.4.8-3.9 3.8.9 5.4-4.8-2.5-4.8 2.5.9-5.4L4.2 9.7l5.4-.8L12 4z" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <span>Starred</span>
+          </button>
+          <button class="side-item" data-view="trash">
+            <svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 7h16M9 7V5a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2m-9 0v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <span>Trash</span>
+          </button>
+        </nav>
+
+        <div class="side-section">
+          <div class="side-heading">Type</div>
+          <button class="side-item sub" data-type="image">Images</button>
+          <button class="side-item sub" data-type="video">Video</button>
+          <button class="side-item sub" data-type="audio">Audio</button>
+          <button class="side-item sub" data-type="document">Documents</button>
+          <button class="side-item sub" data-type="archive">Archives</button>
+        </div>
+
+        <div class="side-storage">
+          <div class="side-storage-top"><span>Storage</span><span id="side-quota-pct">0%</span></div>
+          <div class="quota-bar"><i id="side-quota-bar"></i></div>
+          <div class="side-storage-text" id="side-quota-text">0 B of 10 GB used</div>
+          <button class="btn btn-ghost btn-sm btn-block" id="upgrade-btn">Upgrade storage</button>
+        </div>
+      </aside>
+
+      <!-- Main -->
+      <main class="main">
+        <div class="crumbs" id="crumbs"></div>
+
+        <div class="list-toolbar">
+          <div class="list-toolbar-left">
+            <h2 class="list-title" id="list-title">My Files</h2>
+            <span class="pill" id="item-count">0 items</span>
+          </div>
+          <div class="list-toolbar-right">
+            <div class="seg" id="view-seg">
+              <button class="seg-btn active" data-layout="grid" title="Grid view">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="4" width="7" height="7" rx="1"/><rect x="13" y="4" width="7" height="7" rx="1"/><rect x="4" y="13" width="7" height="7" rx="1"/><rect x="13" y="13" width="7" height="7" rx="1"/></svg>
+              </button>
+              <button class="seg-btn" data-layout="list" title="List view">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h16" stroke-linecap="round"/></svg>
+              </button>
+            </div>
+            <select class="select" id="sort-select" aria-label="Sort files">
+              <option value="date-desc">Newest first</option>
+              <option value="date-asc">Oldest first</option>
+              <option value="name-asc">Name A&ndash;Z</option>
+              <option value="name-desc">Name Z&ndash;A</option>
+              <option value="size-desc">Largest first</option>
+              <option value="size-asc">Smallest first</option>
+            </select>
+          </div>
+        </div>
+
+        <div id="selection-bar" class="selection-bar hidden">
+          <span id="selection-count">0 selected</span>
+          <button class="btn btn-ghost btn-sm" data-bulk="download">Download</button>
+          <button class="btn btn-ghost btn-sm" data-bulk="move">Move</button>
+          <button class="btn btn-ghost btn-sm" data-bulk="star">Star</button>
+          <button class="btn btn-ghost btn-sm danger" data-bulk="trash">Delete</button>
+          <button class="btn btn-ghost btn-sm" id="clear-selection">Clear</button>
+        </div>
+
+        <!-- Drop zone hint -->
+        <div id="empty-state" class="empty-state hidden">
+          <div class="empty-art">
+            <svg viewBox="0 0 24 24" width="42" height="42" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M12 16V4m0 0 4 4m-4-4-4 4" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 16v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2" stroke-linecap="round"/></svg>
+          </div>
+          <h3 id="empty-title">No files yet</h3>
+          <p id="empty-text">Drag &amp; drop files here, or use the Upload button above.</p>
+          <button class="btn btn-primary" id="empty-upload">Upload files</button>
+        </div>
+
+        <div id="grid-view" class="grid-view"></div>
+        <div id="list-view" class="list-wrap hidden">
+          <table class="file-table">
+            <thead>
+              <tr>
+                <th class="col-check"><input type="checkbox" id="select-all" /></th>
+                <th class="col-name">Name</th>
+                <th class="col-owner">Owner</th>
+                <th class="col-size">Size</th>
+                <th class="col-date">Modified</th>
+                <th class="col-actions"></th>
+              </tr>
+            </thead>
+            <tbody id="file-tbody"></tbody>
+          </table>
+        </div>
+
+        <!-- Recent / Shared / Starred / Trash use the same grid view container -->
+      </main>
+    </div>
+
+    <!-- Upload dock -->
+    <div id="upload-dock" class="upload-dock hidden">
+      <div class="dock-head">
+        <strong id="dock-title">Uploading 0 files</strong>
+        <div class="dock-head-actions">
+          <button class="btn btn-ghost btn-xs" id="dock-pause-all">Pause all</button>
+          <button class="icon-btn" id="dock-close" aria-label="Hide uploads">&times;</button>
+        </div>
+      </div>
+      <div class="dock-body" id="dock-body"></div>
+      <div class="dock-foot">
+        <span id="dock-summary">0 of 0 uploaded</span>
+        <div class="dock-progress"><i id="dock-progress-bar"></i></div>
+      </div>
+    </div>
+
+    <!-- Drop overlay -->
+    <div id="drop-overlay" class="drop-overlay hidden">
+      <div class="drop-inner">
+        <svg viewBox="0 0 24 24" width="56" height="56" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M12 16V4m0 0 4 4m-4-4-4 4" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 16v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2" stroke-linecap="round"/></svg>
+        <h2>Drop files to upload</h2>
+        <p id="drop-target-label">to My Files</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ SETTINGS / DASHBOARD VIEWS ============ -->
+  <div id="dashboard-screen" class="overlay-screen hidden">
+    <div class="overlay-head">
+      <h2>Dashboard</h2>
+      <button class="icon-btn big" data-close-overlay>&times;</button>
+    </div>
+    <div class="overlay-body">
+      <div class="stat-grid">
+        <div class="stat-card">
+          <small>Files stored</small>
+          <strong id="stat-files">0</strong>
+        </div>
+        <div class="stat-card">
+          <small>Storage used</small>
+          <strong id="stat-used">0 B</strong>
+          <div class="quota-bar"><i id="stat-quota-bar" style="width:0%"></i></div>
+        </div>
+        <div class="stat-card">
+          <small>Shared links</small>
+          <strong id="stat-shares">0</strong>
+        </div>
+        <div class="stat-card">
+          <small>Trash</small>
+          <strong id="stat-trash">0 items</strong>
+        </div>
+      </div>
+
+      <h3 class="overlay-sub">Storage breakdown</h3>
+      <div class="breakdown" id="storage-breakdown"></div>
+
+      <h3 class="overlay-sub">Recent uploads</h3>
+      <div id="recent-uploads" class="mini-list"></div>
+    </div>
+  </div>
+
+  <div id="settings-screen" class="overlay-screen hidden">
+    <div class="overlay-head">
+      <h2>Settings</h2>
+      <button class="icon-btn big" data-close-overlay>&times;</button>
+    </div>
+    <div class="overlay-body">
+      <section class="settings-card">
+        <h3>Profile</h3>
+        <div class="settings-row">
+          <div>
+            <strong>Display name</strong>
+            <small>Shown on shared files</small>
+          </div>
+          <input type="text" id="setting-name" class="input" placeholder="Your name" />
+        </div>
+        <div class="settings-row">
+          <div>
+            <strong>Email</strong>
+            <small id="setting-email">user@example.com</small>
+          </div>
+          <span class="muted">Read only</span>
+        </div>
+        <button class="btn btn-primary" id="save-profile">Save changes</button>
+      </section>
+
+      <section class="settings-card">
+        <h3>Appearance</h3>
+        <div class="settings-row">
+          <div>
+            <strong>Theme</strong>
+            <small>Light or dark interface</small>
+          </div>
+          <select class="select" id="setting-theme">
+            <option value="system">System</option>
+            <option value="light">Light</option>
+            <option value="dark">Dark</option>
+          </select>
+        </div>
+        <div class="settings-row">
+          <div>
+            <strong>Default view</strong>
+            <small>How your files are listed</small>
+          </div>
+          <select class="select" id="setting-layout">
+            <option value="grid">Grid</option>
+            <option value="list">List</option>
+          </select>
+        </div>
+      </section>
+
+      <section class="settings-card">
+        <h3>Security</h3>
+        <div class="settings-row">
+          <div>
+            <strong>Change password</strong>
+            <small>You will be emailed a reset link</small>
+          </div>
+          <button class="btn btn-ghost" id="change-password">Send reset email</button>
+        </div>
+        <div class="settings-row">
+          <div>
+            <strong>Delete account</strong>
+            <small>Permanently removes all files</small>
+          </div>
+          <button class="btn btn-ghost danger" id="delete-account">Delete account</button>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <!-- ============ FILE PREVIEW MODAL ============ -->
+  <div id="preview-modal" class="modal hidden">
+    <div class="modal-backdrop" data-close-modal></div>
+    <div class="modal-panel modal-preview">
+      <div class="modal-head">
+        <div class="modal-title">
+          <strong id="preview-name">file.txt</strong>
+          <small id="preview-meta"></small>
+        </div>
+        <div class="modal-head-actions">
+          <button class="icon-btn" id="preview-star" title="Star">&#9734;</button>
+          <button class="btn btn-ghost btn-sm" id="preview-download">Download</button>
+          <button class="btn btn-primary btn-sm" id="preview-share">Share</button>
+          <button class="icon-btn big" data-close-modal>&times;</button>
+        </div>
+      </div>
+      <div class="modal-body preview-body" id="preview-body"></div>
+    </div>
+  </div>
+
+  <!-- ============ SHARE MODAL ============ -->
+  <div id="share-modal" class="modal hidden">
+    <div class="modal-backdrop" data-close-modal></div>
+    <div class="modal-panel modal-sm">
+      <div class="modal-head">
+        <div class="modal-title">
+          <strong>Share &ldquo;<span id="share-item-name">item</span>&rdquo;</strong>
+          <small>Anyone with the link can view and download</small>
+        </div>
+        <button class="icon-btn big" data-close-modal>&times;</button>
+      </div>
+      <div class="modal-body">
+        <label class="switch">
+          <input type="checkbox" id="share-enabled" checked />
+          <span class="switch-track"></span>
+          <span>Sharing enabled</span>
+        </label>
+
+        <div id="share-settings">
+          <div class="copy-field">
+            <input type="text" id="share-link" readonly />
+            <button class="btn btn-primary btn-sm" id="copy-link">Copy</button>
+          </div>
+
+          <label class="field">
+            <span>Link expiry</span>
+            <select class="select" id="share-expiry">
+              <option value="never">Never</option>
+              <option value="1">1 day</option>
+              <option value="7">7 days</option>
+              <option value="30">30 days</option>
+            </select>
+          </label>
+
+          <label class="field">
+            <span>Password protection <small class="muted">(optional)</small></span>
+            <input type="text" id="share-password" placeholder="Leave empty for no password" />
+          </label>
+
+          <div class="share-qr" id="share-qr"></div>
+        </div>
+      </div>
+      <div class="modal-foot">
+        <button class="btn btn-ghost" data-close-modal>Done</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ MOVE MODAL ============ -->
+  <div id="move-modal" class="modal hidden">
+    <div class="modal-backdrop" data-close-modal></div>
+    <div class="modal-panel modal-sm">
+      <div class="modal-head">
+        <div class="modal-title"><strong>Move <span id="move-count">items</span></strong></div>
+        <button class="icon-btn big" data-close-modal>&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="folder-picker" id="folder-picker"></div>
+      </div>
+      <div class="modal-foot">
+        <button class="btn btn-ghost" data-close-modal>Cancel</button>
+        <button class="btn btn-primary" id="move-confirm">Move here</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ SHARED PUBLIC PAGE ============ -->
+  <div id="public-screen" class="public-screen hidden">
+    <div class="public-card" id="public-card"></div>
+  </div>
+
+  <!-- Hidden file inputs -->
+  <input type="file" id="file-input" multiple hidden />
+  <input type="file" id="folder-input" webkitdirectory directory multiple hidden />
+
+  <!-- Firebase SDK (compat build keeps this a build-step-free app) -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-storage-compat.js"></script>
+  <!-- QR codes for share links -->
+  <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
+
+  <!-- App scripts (order matters) -->
+  <script src="js/config.js"></script>
+  <script src="js/utils.js"></script>
+  <script src="js/state.js"></script>
+  <script src="js/firebase.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/files.js"></script>
+  <script src="js/folders.js"></script>
+  <script src="js/upload.js"></script>
+  <script src="js/share.js"></script>
+  <script src="js/preview.js"></script>
+  <script src="js/views.js"></script>
+  <script src="js/settings.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

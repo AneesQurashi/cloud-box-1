@@ -1,0 +1,42 @@
+rules_version = '2';
+
+// CloudBox — Firestore security rules
+// Each user may only read/write documents they own (uid field matches).
+// Public share documents are readable by anyone (needed for share links)
+// but only writable by their owner.
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function isSignedIn() { return request.auth != null; }
+    function owns(resource) { return isSignedIn() && resource.data.uid == request.auth.uid; }
+    function ownsNew() { return isSignedIn() && request.resource.data.uid == request.auth.uid; }
+
+    // ---- user profiles ----
+    match /users/{uid} {
+      allow read, write: if isSignedIn() && request.auth.uid == uid;
+    }
+
+    // ---- files metadata ----
+    match /files/{fileId} {
+      allow read, delete: if owns(resource);
+      allow create: if ownsNew();
+      allow update: if owns(resource) && request.resource.data.uid == request.auth.uid;
+    }
+
+    // ---- folders metadata ----
+    match /folders/{folderId} {
+      allow read, delete: if owns(resource);
+      allow create: if ownsNew();
+      allow update: if owns(resource) && request.resource.data.uid == request.auth.uid;
+    }
+
+    // ---- share links ----
+    match /shares/{shareId} {
+      // Anyone (even signed out) can resolve a share link by its unguessable id.
+      allow read: if true;
+      allow create: if ownsNew();
+      allow update, delete: if owns(resource);
+    }
+  }
+}
